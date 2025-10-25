@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriAI Estimator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-dish.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Analyzing your food...</div>
+        <div class="loading-progress">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+    
+    <div id="tips-popup" class="tips-popup hidden">
+        <div class="tips-header">
+            <h3><i class="fa-solid fa-lightbulb"></i> Quick Tip</h3>
+            <button id="close-tip" class="close-tip"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <p id="tip-content">For best results, take clear photos in good lighting.</p>
+    </div>
+    
+    <header class="header">
+        <nav>
+            <div class="logo-container">
+                <i class="fa-solid fa-utensils header-icon pulse" aria-hidden="true"></i>
+                <h1 class="slide-in">NutriAI Estimator</h1>
+            </div>
+            <button id="theme-toggle-button" class="theme-toggle" title="Toggle Theme">
+                <i class="fa-solid fa-moon theme-icon" id="theme-icon" aria-hidden="true"></i>
+                <span class="visually-hidden">Switch to Dark Mode</span>
+            </button>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <section class="hero-section">
+            <h2 class="hero-title">Nutri<span style="color: var(--accent-color);">AI</span> Estimator</h2>
+            <p class="hero-paragraph">Get instant nutritional insights for your meals using cutting-edge AI. Just upload a photo or describe what you're eating.</p>
+            <div class="feature-badges">
+                <span class="feature-badge"><i class="fa-solid fa-bolt"></i> Instant Analysis</span>
+                <span class="feature-badge"><i class="fa-solid fa-chart-pie"></i> Detailed Nutrition</span>
+                <span class="feature-badge"><i class="fa-solid fa-camera"></i> Photo Recognition</span>
+            </div>
+        </section>
+        
+        <section class="upload-form card">
+            <div class="progress-indicator">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Upload or Describe</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Analysis</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Results</div>
+                </div>
+            </div>
+            
+            <form id="analyze-form" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <div class="form-group upload-image-group">
+                        <label for="file">
+                            <i class="fa-solid fa-image" aria-hidden="true"></i>
+                            Upload Food Image
+                        </label>
+                        <div class="file-upload-container">
+                            <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.gif" class="file-input">
+                            <div class="file-input-text">
+                                <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                <span>Drag and drop or click to upload</span>
+                                <a href="#" class="select-image-link">Select Image</a>
+                            </div>
+                            <div class="image-preview-container">
+                                <img id="imagePreview" class="image-preview hidden" src="#" alt="Image preview">
+                                <button type="button" id="removeImageButton" class="remove-image-button hidden" aria-label="Remove uploaded image">
+                                    <i class="fa-solid fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group description-group">
+                        <label for="description">
+                            <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                            Describe the Food
+                        </label>
+                        <textarea id="description" name="description" placeholder="e.g., Chicken salad sandwich on whole wheat bread" class="text-input" rows="4"></textarea>
+                    </div>
+                    <div class="form-group serving-group">
+                        <label for="serving_size" title="Enter serving size in grams (g), ounces (oz), cups or pieces">
+                            <i class="fa-solid fa-scale-unbalanced-flip" aria-hidden="true"></i>
+                            Serving Size <span class="optional">(Optional)</span>
+                        </label>
+                        <div class="serving-input">
+                            <input type="number" id="serving_size" name="serving_size" placeholder="e.g., 150" class="text-input">
+                            <select name="unit" id="unit" class="text-input">
+                                <option value="g" title="grams (g)">grams (g)</option>
+                                <option value="oz" title="ounces (oz)">ounces (oz)</option>
+                                <option value="cup" title="cups">cups</option>
+                                <option value="piece" title="pieces">pieces</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">
+                    <i class="fa-solid fa-magnifying-glass button-icon"></i>
+                    <span>Analyze My Food</span>
+                    <div class="button-hover-effect"></div>
+                </button>
+            </form>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <p>© 2024 NutriAI Estimator. Crafted with <i class="fa-solid fa-heart" style="color: #e53e3e;"></i> using AI.</p>
+        <div class="footer-links">
+            <a href="#" id="show-tips"><i class="fa-solid fa-lightbulb"></i> Tips</a>
+            <a href="#" id="feedback-link"><i class="fa-solid fa-comment"></i> Feedback</a>
+        </div>
+    </footer>
+    
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <script src="core.js" type="module"></script>
+    <script src="script.js" type="module"></script>
+</body>
+
+</html>
